@@ -333,16 +333,5 @@ public class Grid : MonoBehaviour {
 	#endregion
 }
 
-[System.Serializable]
-public enum MapShape {
-	Rectangle,
-	Hexagon,
-	Parrallelogram,
-	Triangle
-}
 
-[System.Serializable]
-public enum HexOrientation {
-	Pointy,
-	Flat
-}
+

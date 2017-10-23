@@ -2,61 +2,55 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hex : MonoBehaviour {
+public class Hex
+{
+    // Q+R+S=0;
+    // S=-(Q+R);
 
-    // Coordinates of our tile-based behaviour
-	public int x;
-    public int y;
-    public int z;
-
-
-    public Hex[] GetNeighbours()
+    public Hex(int q, int r)
     {
-        //Each of the hexes has 6 neighbours
-        //Neighbour calculation differs and depends on hex position on the map. Odd rows use different algorithm then even.
-
-
-        // Left and right use in both situations same functions.
-        // Left Neighbour.
-        GameObject LeftNeighbour = GameObject.Find("HEX_" + (x - 1) + "_" + y);
-
-        // Right Neighbour.
-        GameObject RightNeighbour = GameObject.Find("HEX_" + (x + 1) + "_" + y);
-
-        if (y%2 == 1)
-        {
-                // TopLeft Neighbour.
-                GameObject TopLeftNeighbour = GameObject.Find("HEX_" + (x) + "_" + (y + 1));
-
-                // TopRight Neighbour.
-                GameObject TopRightNeighbour = GameObject.Find("HEX_" + (x + 1) + "_" + (y + 1));
-
-                // BottomLeft Neighbour.
-                GameObject BottomLeftNeighbour = GameObject.Find("HEX_" + (x) + "_" + (y-1));
-
-                // BottomRight Neighbour.
-                GameObject BottomRightNeighbour = GameObject.Find("HEX_" + (x + 1) + "_" + (y-1));
-        }
-        else
-
-        {
-            // TopLeft Neighbour.
-            GameObject TopLeftNeighbour = GameObject.Find("HEX_" + (x-1) + "_" + (y + 1));
-
-            // TopRight Neighbour.
-            GameObject TopRightNeighbour = GameObject.Find("HEX_" + (x) + "_" + (y + 1));
-
-            // BottomLeft Neighbour.
-            GameObject BottomLeftNeighbour = GameObject.Find("HEX_" + (x-1) + "_" + (y - 1));
-
-            // BottomRight Neighbour.
-            GameObject BottomRightNeighbour = GameObject.Find("HEX_" + (x) + "_" + (y - 1));
-
-
-        }
-
-
-        return null;
+        this.Q = q;
+        this.R = r;
+        this.S = -(q + r);
     }
 
+
+    public readonly int Q; //Column
+    public readonly int R; // Row
+    public readonly int S; //Sphere row
+
+    public float radius = 1f;
+    static readonly float WIDTH_MULTIPLIER = Mathf.Sqrt(3) / 2;
+
+    public Vector3 Position()
+    {
+        return new Vector3(HexHorizontalSpacing() * (this.Q + this.R / 2f), 0, HexVerticalSpacing() * this.R);
+
+    }
+
+    public float HexHeight()
+    {
+        return radius * 2;
+    }
+    public float HexWidth()
+    {
+        return WIDTH_MULTIPLIER * HexHeight();
+    }
+
+    public float HexVerticalSpacing()
+    {
+        return HexHeight() * 0.75f * 1.025f;
+    }
+
+    public float HexHorizontalSpacing()
+    {
+        return HexWidth() * 1.025f;
+
+    }
+
+
+
+
 }
+
+
