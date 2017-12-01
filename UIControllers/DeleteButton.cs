@@ -17,9 +17,9 @@ public class DeleteButton : MonoBehaviour {
             GetComponent<Transform>().Find("/Main Camera/HexUI").gameObject.GetComponent<MovingObject>().numberOfDrawnHex--;
 
             //move to gravyard and remove mose of components
-            toDelete.GetComponent<Transform>().parent = GetComponent<Transform>();
+            toDelete.GetComponent<Transform>().SetParent(GetComponent<Transform>());
             toDelete.GetComponent<Transform>().position = new Vector3(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y, GetComponent<Transform>().position.z + 0.01f);
-            Destroy(toDelete.GetComponent<Rigidbody2D>());
+            //Destroy(toDelete.GetComponent<Rigidbody2D>());
             Destroy(toDelete.GetComponent<mouseOverHex>());
             Destroy(toDelete.GetComponent<ToRemove>());
             Destroy(toDelete.GetComponent<PolygonCollider2D>());
