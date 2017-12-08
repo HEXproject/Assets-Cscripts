@@ -5,10 +5,13 @@ using UnityEngine;
 public class MovingObject : MonoBehaviour {
 
     public Sprite hexSprite;
+    public Sprite hexBGSprite;
 
     public List<GameObject> handBG = new List<GameObject>();
     public List<GameObject> deckList = new List<GameObject>();
-    public GameObject removeButton;
+    private GameObject EndOfTurnButton;
+    private GameObject HexPortraitHex;
+    private GameObject GravyardButton;
     public GameObject mulliganHex;
 
     public float smoothTime = 0.01f;
@@ -21,29 +24,66 @@ public class MovingObject : MonoBehaviour {
     public bool domulligan = false;
 
     void Start () {
-
         GameObject Hand = new GameObject();
         GameObject Deck = new GameObject();
+        
         Hand.GetComponent<Transform>().parent = gameObject.GetComponent<Transform>();
-        Deck.GetComponent<Transform>().parent = gameObject.GetComponent<Transform>();
+        Deck.GetComponent<Transform>().parent = gameObject.GetComponent<Transform>();        
 
         Hand.GetComponent<Transform>().name = "HandBG";
         Deck.GetComponent<Transform>().name = "Deck";
-        
-        removeButton = createHexAsGameObject();
-        removeButton.GetComponent<Transform>().position = new Vector3(10, 6, -8);
-        removeButton.GetComponent<Transform>().name = "RemoveButton";
-        removeButton.GetComponent<SpriteRenderer>().color = Color.white;
-        removeButton.GetComponent<Transform>().localScale = new Vector3(2, 2, 2);
-        removeButton.AddComponent<PolygonCollider2D>();
-        removeButton.AddComponent<DeleteButton>();
-        removeButton.GetComponent<Transform>().parent = gameObject.GetComponent<Transform>();
-        
+
+        //HexPortraitHex
+        HexPortraitHex = createGameObjectFromSprite(hexSprite);
+        HexPortraitHex.GetComponent<Transform>().position = new Vector3(8, 6, -8);
+        HexPortraitHex.GetComponent<Transform>().name = "HexPortraitHex";
+        HexPortraitHex.GetComponent<SpriteRenderer>().color = Color.grey;
+        HexPortraitHex.GetComponent<Transform>().localScale = new Vector3(5, 5, 5);
+        HexPortraitHex.GetComponent<Transform>().Rotate(new Vector3(0, 0, 30));
+        HexPortraitHex.GetComponent<Transform>().parent = gameObject.GetComponent<Transform>();
+
+        //hexTraits
+        for (int i = 0; i < 3; ++i)
+        {
+            GameObject newHex = createGameObjectFromSprite(hexSprite);
+            newHex.GetComponent<Transform>().parent = HexPortraitHex.GetComponent<Transform>();
+            if(i==1) newHex.GetComponent<Transform>().position = new Vector3(8, 9, -8);
+            else newHex.GetComponent<Transform>().position = new Vector3(5.5f+2.5f*i, 7.5f, -8);
+            newHex.GetComponent<Transform>().Rotate(new Vector3(0, 0, 30));
+            newHex.GetComponent<Transform>().name = "HexTrait" + i.ToString();
+            newHex.GetComponent<SpriteRenderer>().color = Color.cyan;
+        }
+
+        //endOfTurnButton
+        EndOfTurnButton = createGameObjectFromSprite(hexSprite);
+        EndOfTurnButton.GetComponent<Transform>().position = new Vector3(0, 17, -8);
+        EndOfTurnButton.GetComponent<Transform>().name = "EndOfTurnButton";
+        EndOfTurnButton.GetComponent<SpriteRenderer>().color = Color.black;
+        EndOfTurnButton.GetComponent<Transform>().localScale = new Vector3(5, 5, 5);
+        EndOfTurnButton.GetComponent<Transform>().parent = gameObject.GetComponent<Transform>();
+
+        //removeButton
+        GravyardButton = createGameObjectFromSprite(hexSprite);
+        GravyardButton.GetComponent<Transform>().position = new Vector3(-11.5f, 4, -8);
+        GravyardButton.GetComponent<Transform>().name = "RemoveButton";
+        GravyardButton.GetComponent<SpriteRenderer>().color = Color.white;
+        GravyardButton.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
+        GravyardButton.AddComponent<DeleteButton>();
+        GravyardButton.GetComponent<Transform>().parent = gameObject.GetComponent<Transform>();
+
+        ////handBG
+        //GameObject HexHandBG = createGameObjectFromSprite(hexBGSprite);
+        ////HexHandBG.GetComponent<Transform>().parent = gameObject.GetComponent<Transform>();
+        //HexHandBG.GetComponent<Transform>().position = new Vector3(-6.5f, 6, -5);
+        //HexHandBG.GetComponent<Transform>().localScale = new Vector3(12, 20, 0);
+        //HexHandBG.GetComponent<Transform>().name = "HandBackground";
+        //HexHandBG.GetComponent<SpriteRenderer>().color = Color.yellow;
+
         //hand
         for ( int i = 0; i < HandSize; ++i)
         {
-            GameObject newHex = createHexAsGameObject();
-            newHex.GetComponent<Transform>().position = new Vector3(i*2 - 4, 6, -8);
+            GameObject newHex = createGameObjectFromSprite(hexSprite);
+            newHex.GetComponent<Transform>().position = new Vector3(i*2 - 10, 6, -8);
             newHex.GetComponent<Transform>().name = "HexHandBG";
             newHex.GetComponent<SpriteRenderer>().color = Color.red;
             newHex.GetComponent<Transform>().localScale = new Vector3(2, 2, 2);
@@ -54,8 +94,8 @@ public class MovingObject : MonoBehaviour {
         //deck
         for (int i = 0; i < DeckSize; ++i)
         {
-            GameObject newHex = createHexAsGameObject();
-            newHex.GetComponent<Transform>().position = new Vector3(-8, 4, -8);
+            GameObject newHex = createGameObjectFromSprite(hexSprite);
+            newHex.GetComponent<Transform>().position = new Vector3(-11.5f, 8, -8);
             newHex.GetComponent<Transform>().name = "HexDeckElement";
             newHex.GetComponent<SpriteRenderer>().color = Color.green;
             newHex.GetComponent<Transform>().parent = Deck.GetComponent<Transform>();
@@ -65,12 +105,12 @@ public class MovingObject : MonoBehaviour {
 
     }
 
-    GameObject createHexAsGameObject()
+    GameObject createGameObjectFromSprite(Sprite s)
     {
         GameObject newHex = new GameObject();
 
         newHex.AddComponent<SpriteRenderer>();
-        newHex.GetComponent<SpriteRenderer>().sprite = hexSprite;
+        newHex.GetComponent<SpriteRenderer>().sprite = s;
 
         newHex.AddComponent<PolygonCollider2D>();
 
