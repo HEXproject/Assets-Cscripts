@@ -5,27 +5,53 @@ using System;
 
 public class SteamHaze : SpellHex
 {
+    public override void InitHex()
+    {
+        this.hexCost = new HexCost(0, 1, 0, 1);
+    }
     public override void MakeActionOnEnter()
     {
-        //isn't this an easier way to declare functions? idk
-        List<UnitHex> gls = getTargets();
+        List<UnitHex> gls = getHexUnitsFromContainer("Deck");
         foreach(var g in gls)
         {
-            g.feetSpeed += 1;
+            this.changeMovement(g, 1);
         }
     }
 }
-
-public class OilExplosion : SpellHex
+public class OldGrease:SpellHex
 {
+    public override void InitHex()
+    {
+        this.hexCost = new HexCost(0, 0, 0, 2);
+    }
     public override void MakeActionOnEnter()
     {
-        //need to find better way to find neighbours and execute functions from UnitHex objects.
-        UnitHex oilCan = getTarget();
-        List<UnitHex> oilCanNeighbours = getTargets();
-        foreach(var n in oilCanNeighbours)
+        List<UnitHex> deckUnits = getHexUnitsFromContainer("Deck");
+        List<SpellHex> deckSpells = getHexSpellsFromContainer("Deck");
+        foreach(var u in deckUnits)
         {
-            this.reduceLifePoints(n, 3);
+            this.changeFaithCost(u, 1);
         }
+        foreach(var s in deckSpells)
+        {
+            this.changeFaithCost(s, 1);
+        }
+
+    }
+}
+public class OilExplosion : SpellHex
+{
+    public override void InitHex()
+    {
+        this.hexCost = new HexCost(0, 0, 0, 1);
+    }
+    public override void MakeActionOnEnter()
+    {
+        //UnitHex oilCan = getHexUnitsFromContainer("Board");
+        //List<UnitHex> oilCanNeighbours = getHexUnitsFromContainer();
+        //foreach(var n in oilCanNeighbours)
+        //{
+            //this.changeLifePoints(n, -3);
+        //}
     }
 }

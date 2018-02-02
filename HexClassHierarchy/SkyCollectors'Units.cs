@@ -5,24 +5,23 @@ using System;
 
 public class BrokenMinersCarrier : UnitHex
 {
-    public override void setBaseStats()
+    public override void InitHex()
     {
+        this.hexCost = new HexCost(3, 0, 0, 1);
         this.lifePoints = 6;
-        this.faithPoints = 4;
     }
 
     public override void MakeActionOnEnter()
     {
-        setBaseStats();
-        this.reduceLifePoints(this, 2);
+        this.changeLifePoints(this, 2);
     }
 
     public override void MakeActionAtAttack()
     {
-        List<UnitHex> gls = getTargets();
+        List<UnitHex> gls = getHexUnitsFromContainer("Board");
         foreach( var g in gls)
         {
-            this.reduceLifePoints(g, 1);
+            this.changeLifePoints(g, 1);
         }
     }
 }
