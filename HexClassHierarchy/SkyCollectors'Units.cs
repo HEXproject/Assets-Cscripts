@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class BrokenMinersCarrier : UnitHex
@@ -18,7 +19,10 @@ public class BrokenMinersCarrier : UnitHex
 
     public override void MakeActionAtAttack()
     {
-        //does something at attack
+        List<UnitHex> gls = getTargets();
+        foreach( var g in gls)
+        {
+            this.reduceLifePoints(g, 1);
+        }
     }
-
 }

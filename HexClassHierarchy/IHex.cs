@@ -31,13 +31,28 @@ public abstract class IHex : MonoBehaviour{
         //}
     }
 
+    protected UnitHex getTarget()
+    {
+        UnitHex g = null;
+        //get gameObjectThatPlayerIsClickingAt
+        return g;
+    }
+    protected List<UnitHex> getTargets()
+    {
+        List<UnitHex> gls = null;
+        //get list of game objects;
+        return gls;
+    }
+
+    //find neighbour hexTiles
+    //find neighbour hexUnits
+
     //private void reduceEnergyPoints(UnitHex aUnit, int valueToReduce)
 
 
     //private void destroyHex(IHex h) { }
 
     public abstract void MakeActionOnEnter();
-    public abstract void MakeActionAtAttack();
 
 
 }
