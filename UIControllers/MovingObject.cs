@@ -95,6 +95,8 @@ public class MovingObject : MonoBehaviour {
         for (int i = 0; i < DeckSize; ++i)
         {
             GameObject newHex = createGameObjectFromSprite(hexSprite);
+            newHex.AddComponent<BrokenMinersCarrier>();
+            newHex.GetComponent<BrokenMinersCarrier>().InitHex();
             newHex.GetComponent<Transform>().position = new Vector3(-11.5f, 8, -8);
             newHex.GetComponent<Transform>().name = "HexDeckElement";
             newHex.GetComponent<SpriteRenderer>().color = Color.green;

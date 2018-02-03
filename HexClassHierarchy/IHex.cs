@@ -20,8 +20,10 @@ public abstract class IHex : MonoBehaviour{
     protected void changeLifePoints(UnitHex aUnit, int valueToChange)
     {
         aUnit.lifePoints += valueToChange;
+        Debug.Log("still work");
         if (aUnit.lifePoints < 0)
         {
+            Debug.Log("below 0");
             destroyUnit(aUnit);
         }
     }
@@ -57,9 +59,10 @@ public abstract class IHex : MonoBehaviour{
         return;
     }
     //todo
-    protected List<UnitHex> getHexUnitsFromContainer(string containerName)
+    protected List<IHex> getHexUnitsFromContainer(string containerName)
     {
-        List<UnitHex> listOfHexes = null;
+        //lepiej zmienić na przyjmowanie IHexów z listy GameObjectów.
+        List<IHex> listOfHexes = new List<IHex>();
         GameObject container = this.GetComponent<Transform>().parent.Find(containerName).gameObject;
         if(container != null)
         {
@@ -71,18 +74,19 @@ public abstract class IHex : MonoBehaviour{
         }        
         return listOfHexes;
     }
-    protected List<SpellHex> getHexSpellsFromContainer(string containerName)
+    protected List<IHex> getHexSpellsFromContainer(string containerName)
     {
-        List<SpellHex> listOfHexes = null;
-        GameObject container = this.GetComponent<Transform>().parent.Find(containerName).gameObject;
+        List<IHex> listOfHexes = new List<IHex>();
+        GameObject container = this.GetComponent<Transform>().Find(containerName).gameObject;
         if (container != null)
         {
             for (int i = 0; i < container.GetComponent<Transform>().childCount - 1; ++i)
             {
-                if (container.GetComponent<Transform>().GetChild(i).GetComponent<SpellHex>() != null)
+                if (container.GetComponent<Transform>().GetChild(i).GetComponent<SpellHex>()!=null)
                     listOfHexes.Add(container.GetComponent<Transform>().GetChild(i).GetComponent<SpellHex>());
             }
         }
+
         return listOfHexes;
     }
 

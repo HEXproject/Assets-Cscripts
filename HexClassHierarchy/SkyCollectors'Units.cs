@@ -13,15 +13,16 @@ public class BrokenMinersCarrier : UnitHex
 
     public override void MakeActionOnEnter()
     {
-        this.changeLifePoints(this, 2);
+        this.changeLifePoints(this, -4);
     }
 
     public override void MakeActionAtAttack()
     {
-        List<UnitHex> gls = getHexUnitsFromContainer("Board");
+        List<IHex> gls = getHexUnitsFromContainer("/Main Camera/HexUI/Deck");
+        
         foreach( var g in gls)
         {
-            this.changeLifePoints(g, 1);
+            this.changeLifePoints((UnitHex)g, -21);
         }
     }
 }
