@@ -8,6 +8,8 @@ public abstract class IHex : MonoBehaviour{
 
     private string _hexName;
     private HexCost _hexCost;
+    private List<string> _hexTags;
+    private string _hexDescription;
 
     public string hexName { get { return _hexName; } set { _hexName = value; } }
     public HexCost hexCost { get { return _hexCost; } set { _hexCost = value; } }
@@ -20,10 +22,8 @@ public abstract class IHex : MonoBehaviour{
     protected void changeLifePoints(UnitHex aUnit, int valueToChange)
     {
         aUnit.lifePoints += valueToChange;
-        Debug.Log("still work");
         if (aUnit.lifePoints < 0)
         {
-            Debug.Log("below 0");
             destroyUnit(aUnit);
         }
     }
@@ -53,43 +53,57 @@ public abstract class IHex : MonoBehaviour{
         if (aUnit.movement < 0) aUnit.movement = 0;
     }
     
-    //todo
     protected void destroyUnit(UnitHex unitToDestroy)
     {
+        GameObject hexContainer = getHexContainer("/Main Camera/HexUI/Graveyard");
+        unitToDestroy.GetComponent<Transform>().parent.gameObject.GetComponent<Transform>().SetParent(null);
+        unitToDestroy.GetComponent<Transform>().parent.gameObject.GetComponent<Transform>().position = hexContainer.GetComponent<Transform>().position;
+        unitToDestroy.GetComponent<Transform>().parent.gameObject.GetComponent<Transform>().SetParent(hexContainer.GetComponent<Transform>());
         return;
     }
-    //todo
-    protected List<IHex> getHexUnitsFromContainer(string containerName)
+
+    //better move to other class
+    protected GameObject getHexContainer(string hexContainerName)
     {
-        //lepiej zmienić na przyjmowanie IHexów z listy GameObjectów.
+        return this.GetComponent<Transform>().parent.Find(hexContainerName).gameObject; 
+    }
+    
+    protected List<IHex> getHexByTypeFromContainer(GameObject hexContainer, string hexType)
+    {
         List<IHex> listOfHexes = new List<IHex>();
-        GameObject container = this.GetComponent<Transform>().parent.Find(containerName).gameObject;
-        if(container != null)
+        if(hexContainer == null)
         {
-            for(int i = 0; i < container.GetComponent<Transform>().childCount - 1; ++i)
+            Debug.Log("hexContainer == null");
+            return null;
+        }
+        else
+        {
+            for(int i = 0; i < hexContainer.GetComponent<Transform>().childCount - 1; ++i)
             {
-                if(container.GetComponent<Transform>().GetChild(i).GetComponent<UnitHex>()!=null)
-                listOfHexes.Add(container.GetComponent<Transform>().GetChild(i).GetComponent<UnitHex>());
+                if(hexContainer.GetComponent<Transform>().GetChild(i).GetComponent<IHex>()!=null 
+                    && hexContainer.GetComponent<Transform>().GetChild(i).GetComponent<IHex>().GetType().Name==hexType)
+                listOfHexes.Add(hexContainer.GetComponent<Transform>().GetChild(i).GetComponent<IHex>());
             }
         }        
         return listOfHexes;
     }
-    protected List<IHex> getHexSpellsFromContainer(string containerName)
+    
+    protected List<IHex> getHexByTagFromIHexList(List<IHex> IhexList, string tags)
     {
-        List<IHex> listOfHexes = new List<IHex>();
-        GameObject container = this.GetComponent<Transform>().Find(containerName).gameObject;
-        if (container != null)
+        List<IHex> listOfIHexWithProperTag = new List<IHex>();
+        for(int i = IhexList.Count-1; i >= 0; --i)
         {
-            for (int i = 0; i < container.GetComponent<Transform>().childCount - 1; ++i)
+            foreach(var t in IhexList[i]._hexTags)
             {
-                if (container.GetComponent<Transform>().GetChild(i).GetComponent<SpellHex>()!=null)
-                    listOfHexes.Add(container.GetComponent<Transform>().GetChild(i).GetComponent<SpellHex>());
+                if(t == tags)
+                {
+                    listOfIHexWithProperTag.Add(IhexList[i]);
+                    break;
+                }
             }
         }
-
-        return listOfHexes;
+        return listOfIHexWithProperTag;
     }
-
 
     //find neighbour hexTiles
     //find neighbour hexUnits
