@@ -18,18 +18,18 @@ public class MouseManager : MonoBehaviour
     int a = 0;
 
     // Update is called once per frame
-    void Update()
-    {
-
-        Ray MouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitInfo;
-
-
-        // Lets check if we are over UI element or Game Object
-
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            return;
+                       void Update()
+                       {
+                   
+                           Ray MouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                           RaycastHit hitInfo;
+                   
+                   
+                           // Lets check if we are over UI element or Game Object
+                   
+                           if (EventSystem.current.IsPointerOverGameObject())
+                           {
+                               return;
         }
 
 
