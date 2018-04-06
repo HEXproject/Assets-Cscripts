@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Director;
 
 public class TurnChange : MonoBehaviour
 {
     private GameObject _activePlayer;
     private GameObject _inactivePlayer;
+
+    private void Start()
+    {
+        EventEx.BeginningOfPlanningPhase += DoPlanningPhase;
+        EventEx.BeginningOfActionPhase += DoActionPhase;
+    }
+    
 
     private string _typeOfPhase;
 
