@@ -9,8 +9,8 @@ public class TurnChange : MonoBehaviour
 
     private void Start()
     {
-        EventEx.BeginningOfPlanningPhase += DoPlanningPhase;
-        EventEx.BeginningOfActionPhase += DoActionPhase;
+        TurnChangeEvents.NextPhase += GoToNextPhase;
+        TurnChangeEvents.EndOfTurn += DoPhase;
     }
     
 
@@ -35,7 +35,7 @@ public class TurnChange : MonoBehaviour
         }
         else
         {
-            Debug.Log("Got null as player/players");
+            Debug.Log("One or both players were NULL.");
         }
     }
     private void SwitchPlayers()
@@ -43,7 +43,6 @@ public class TurnChange : MonoBehaviour
         GameObject tmp = _activePlayer;
         _activePlayer = _inactivePlayer;
         _inactivePlayer = tmp;
-        Destroy(tmp);
 
         _inactivePlayer.SetActive(false);
         _activePlayer.SetActive(true);
@@ -89,18 +88,36 @@ public class TurnChange : MonoBehaviour
     }
     private void DoPlanningPhase()
     {
-        //_activePlayer.GetComponent<Transform>().FindChild("Deck").DrawCard(1);
-        ////wait for player to choose proper card to play
-        //GameObject chosenCard = getChosenCard(); //get card chosen by player
-        //chosenCard.Play(); //move to board, use 3d model, makeActionOnEnter()
-        GoToNextPhase();
+        // Send event to draw a card
+        // Send event to choose hex
+        bool tmpIsHexChosen = false;
+        if (tmpIsHexChosen)
+        {
+            GameObject chosenCard = new GameObject();
+            //chosenCard = getChosenCard();
+            //should I chceck if IHex is null?
+            chosenCard.GetComponent<IHex>().MakeActionOnEnter();
+
+            GoToNextPhase();
+        }
+        else
+        {
+            Debug.Log("Chosen Hex is null, can't going forward with turn");
+        }
     }
     private void DoActionPhase()
     {
-        ////wait for player to choose proper unit to make action
-        //GameObject chosenUnit = getChosenUnit(); //get unit chosen by player
-        //chosenUnit.GetComponent<UnitHex>().MakeActionAtAttack(); //makeActionOnAttack();
-        GoToNextPhase();
+        // Send event to choose board unit
+        bool tmpIsBoardUnitChosen = false;
+        if (tmpIsBoardUnitChosen)
+        {
+            GameObject chosenCard = new GameObject();
+            //chosenCard = getChosenCard();
+            //should I chceck if IHex is null?
+            chosenCard.GetComponent<UnitHex>().MakeActionAtAttack();
+
+            GoToNextPhase();
+        }
     }
     public void DoPhase()
     {
@@ -108,6 +125,17 @@ public class TurnChange : MonoBehaviour
         else if (_typeOfPhase == "ActionPhase") DoActionPhase();
     }
 
-
+    IEnumerator PlanningPhase()
+    {
+        //print(Time.time);
+        yield return new WaitForSeconds(_basicTimeOfActionPhase);
+        //print(Time.time);
+    }
+    IEnumerator ActionPhase()
+    {
+        //print(Time.time);
+        yield return new WaitForSeconds(_basicTimeOfPlanningPhase);
+        //print(Time.time);
+    }
 
 }
