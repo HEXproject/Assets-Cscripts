@@ -156,9 +156,7 @@ public class MovingObject : MonoBehaviour {
     void mulligan(GameObject HexToMulligan)
     {
         if (deckList.Count > 1)
-        {
-            //znacznie zwalnia prędkość powracającego hexa
-            
+        {            
             if (Vector3.Distance(deckList[1].GetComponent<Transform>().position, 
                 HexToMulligan.GetComponent<Transform>().position) < 0.1f)
             {
@@ -170,19 +168,16 @@ public class MovingObject : MonoBehaviour {
                         (deckList[0].GetComponent<Transform>().position.x,
                         deckList[0].GetComponent<Transform>().position.y, 
                         deckList[0].GetComponent<Transform>().position.z + 0.01f);
+                    deckList.Add(HexToMulligan);
                     
                     Destroy(HexToMulligan.GetComponent<ToRemove>());
                     Destroy(HexToMulligan.GetComponent<mouseOverHex>());
                     HexToMulligan.AddComponent<DrawOnClick>();
-
-                    Debug.Log(deckList.Count);
-
+                    
                     GameObject a = HexToMulligan.GetComponent<Transform>().parent.gameObject;
                     HexToMulligan.GetComponent<Transform>().parent = deckList[0].GetComponent<Transform>().parent;
                     deckList[0].GetComponent<Transform>().parent = a.GetComponent<Transform>();
-
-                    Debug.Log(deckList.Count);
-
+                    
                     Destroy(deckList[0].GetComponent<DrawOnClick>());
                     deckList[0].AddComponent<ToRemove>();
                     deckList[0].AddComponent<mouseOverHex>();
@@ -215,7 +210,7 @@ public class MovingObject : MonoBehaviour {
         drawHex(ActualNumberToDraw);
         if (domulligan)
         {
-            Debug.Log(mulliganHex);
+            //Debug.Log(mulliganHex);
             mulligan(mulliganHex);
         }
     }

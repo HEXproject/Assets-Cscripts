@@ -18,7 +18,9 @@ public class BrokenMinersCarrier : UnitHex
 
     public override void MakeActionAtAttack()
     {
-        List<IHex> gls = getHexUnitsFromContainer("/Main Camera/HexUI/Deck");
+        GameObject deck = getHexContainer("/Main Camera/HexUI/Deck");
+        string hexType = "UnitHex";
+        List<IHex> gls = getHexByTypeFromContainer(deck, hexType);
         
         foreach( var g in gls)
         {
