@@ -22,9 +22,10 @@ public class GameInit : MonoBehaviour
         Player1.GetComponent<Transform>().SetParent(TheGame.GetComponent<Transform>());
         Player2.GetComponent<Transform>().SetParent(TheGame.GetComponent<Transform>());
 
+        SetPlayerChildhood(Player1);
+        SetPlayerChildhood(Player2);
+
         GameObject Map = new GameObject("Map");
-        GameObject Player1UserInterface = new GameObject("UI");
-        GameObject Player2UserInterface = new GameObject("UI");
 
         //Map.AddComponent<MapGeneration>();
         Turn.AddComponent<TurnChange>();
@@ -33,24 +34,54 @@ public class GameInit : MonoBehaviour
         Turn.GetComponent<TurnChange>().SetTurnToPhaseByName("ActionPhase");
 
         Map.GetComponent<Transform>().SetParent(Board.GetComponent<Transform>());
-        Player1UserInterface.GetComponent<Transform>().SetParent(Player1.GetComponent<Transform>());
-        Player2UserInterface.GetComponent<Transform>().SetParent(Player2.GetComponent<Transform>());
 
-        GameObject UI1Background = new GameObject("Background");
-        GameObject UI2Background = new GameObject("Background");
-        GameObject UI1Deck = new GameObject("Deck");
-        GameObject UI2Deck = new GameObject("Deck");
-        GameObject UI1Hand = new GameObject("Hand");
-        GameObject UI2Hand = new GameObject("Hand");
+    }
 
-        UI1Background.GetComponent<Transform>().SetParent(Player1UserInterface.GetComponent<Transform>());
-        UI1Deck.GetComponent<Transform>().SetParent(Player1UserInterface.GetComponent<Transform>());
-        UI1Hand.GetComponent<Transform>().SetParent(Player1UserInterface.GetComponent<Transform>());
-        UI2Background.GetComponent<Transform>().SetParent(Player2UserInterface.GetComponent<Transform>());
-        UI2Deck.GetComponent<Transform>().SetParent(Player2UserInterface.GetComponent<Transform>());
-        UI2Hand.GetComponent<Transform>().SetParent(Player2UserInterface.GetComponent<Transform>());
+    void SetPlayerChildhood(GameObject player)
+    {
+        GameObject Deck = new GameObject("Deck");
+        GameObject Hand = new GameObject("HandSetter");
+        GameObject Portrait = new GameObject("PortraitSetter");
+        GameObject Graveyard = new GameObject("GraveyardSetter");
+
+        Deck.GetComponent<Transform>().SetParent(player.GetComponent<Transform>());
+        Hand.GetComponent<Transform>().SetParent(player.GetComponent<Transform>());
+        Portrait.GetComponent<Transform>().SetParent(player.GetComponent<Transform>());
+        Graveyard.GetComponent<Transform>().SetParent(player.GetComponent<Transform>());
+
+        SetDeck(Deck);
+        SetHand(Hand);
+        SetPortrait(Portrait);
+        SetGraveyard(Graveyard);
 
     }
     
+    private void SetGraveyard(GameObject graveyard)
+    {
+        graveyard.AddComponent<GraveyardSetter>();
+        //graveyard.GetComponent<GraveyardSetter>().SetMe(graveyard);
+        Destroy(graveyard.GetComponent<GraveyardSetter>());
+    }
+
+    private void SetPortrait(GameObject portrait)
+    {
+        portrait.AddComponent<PortraitSetter>();
+        //portrait.GetComponent<PortraitSetter>().SetMe(portrait);
+        Destroy(portrait.GetComponent<PortraitSetter>());
+    }
+
+    private void SetHand(GameObject hand)
+    {
+        hand.AddComponent<HandSetter>();
+        //hand.GetComponent<HandSetter>().SetMe(hand);
+        Destroy(hand.GetComponent<HandSetter>());
+    }
+
+    private void SetDeck(GameObject deck)
+    {
+        deck.AddComponent<DeckSetter>();
+        deck.GetComponent<DeckSetter>().SetMe(deck);
+        Destroy(deck.GetComponent<DeckSetter>());
+    }
 
 }
