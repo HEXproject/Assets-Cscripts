@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PortraitSetter : MonoBehaviour {
+public class PortraitSetter : InitializePlayersGameObjects
+{
 
-	
+    public override void Initialize(GameObject g)
+    {
+        
+    }
 }

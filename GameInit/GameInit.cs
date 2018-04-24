@@ -49,38 +49,17 @@ public class GameInit : MonoBehaviour
         Portrait.GetComponent<Transform>().SetParent(player.GetComponent<Transform>());
         Graveyard.GetComponent<Transform>().SetParent(player.GetComponent<Transform>());
 
-        SetDeck(Deck);
-        SetHand(Hand);
-        SetPortrait(Portrait);
-        SetGraveyard(Graveyard);
+        InitializeUI(Deck);
+        InitializeUI(Portrait);
+        InitializeUI(Graveyard);
+        InitializeUI(Hand);
 
     }
-    
-    private void SetGraveyard(GameObject graveyard)
-    {
-        graveyard.AddComponent<GraveyardSetter>();
-        //graveyard.GetComponent<GraveyardSetter>().SetMe(graveyard);
-        Destroy(graveyard.GetComponent<GraveyardSetter>());
-    }
 
-    private void SetPortrait(GameObject portrait)
-    {
-        portrait.AddComponent<PortraitSetter>();
-        //portrait.GetComponent<PortraitSetter>().SetMe(portrait);
-        Destroy(portrait.GetComponent<PortraitSetter>());
-    }
-
-    private void SetHand(GameObject hand)
-    {
-        hand.AddComponent<HandSetter>();
-        //hand.GetComponent<HandSetter>().SetMe(hand);
-        Destroy(hand.GetComponent<HandSetter>());
-    }
-
-    private void SetDeck(GameObject deck)
+    private void InitializeUI(GameObject deck)
     {
         deck.AddComponent<DeckSetter>();
-        deck.GetComponent<DeckSetter>().SetMe(deck);
+        deck.GetComponent<DeckSetter>().Initialize(deck);
         Destroy(deck.GetComponent<DeckSetter>());
     }
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeckSetter : MonoBehaviour {
+public class DeckSetter : InitializePlayersGameObjects {
 
     private List<String> importHexList()
     {
@@ -36,11 +36,11 @@ public class DeckSetter : MonoBehaviour {
         }
     }
 
-    public void SetMe(GameObject Deck)
+    public override void Initialize(GameObject Deck)
     {
         List<String> NamesInDeck = importHexList();
-        NamesInDeck.Add("Zielony Brat");
-        NamesInDeck.Add("Leśny Wilk");
+        //NamesInDeck.Add("Zielony Brat");
+        //NamesInDeck.Add("Leśny Wilk");
         List<GameObject> HexList = CreateHexCards(NamesInDeck);
         setDeckAsParent(Deck, HexList);
     }
