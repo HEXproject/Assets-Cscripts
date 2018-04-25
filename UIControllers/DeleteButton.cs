@@ -15,7 +15,7 @@ public class DeleteButton : MonoBehaviour {
             //better change these two lines below - working on public variables
             GetComponent<Transform>().Find("/Main Camera/HexUI").gameObject.GetComponent<MovingObject>().ActualNumberToDraw--;
             GetComponent<Transform>().Find("/Main Camera/HexUI").gameObject.GetComponent<MovingObject>().numberOfDrawnHex--;
-            toDelete.GetComponent<UnitHex>().MakeActionAtAttack();
+            //toDelete.GetComponent<UnitHex>().MakeActionAtAttack();
             toDelete.GetComponent<UnitHex>().MakeActionOnEnter();
 
             //move to gravyard and remove mose of components

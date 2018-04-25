@@ -14,8 +14,8 @@ public class FernWolf : UnitHex
     {
 
     }
-    public override void MakeActionAtAttack()
+    public override void MakeActionAtAttack(GameObject target)
     {
-        
+        target.GetComponent<UnitHex>().lifePoints -= attackPoints;
     }
 }
