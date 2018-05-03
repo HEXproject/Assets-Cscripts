@@ -31,7 +31,6 @@ public class GameInit : MonoBehaviour
         Turn.AddComponent<TurnChange>();
         //make it to event
         Turn.GetComponent<TurnChange>().SetPlayers(Player1, Player2);
-        Turn.GetComponent<TurnChange>().SetTurnToPhaseByName("ActionPhase");
 
         Map.GetComponent<Transform>().SetParent(Board.GetComponent<Transform>());
 

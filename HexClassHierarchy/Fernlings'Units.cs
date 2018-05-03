@@ -10,12 +10,17 @@ public class FernWolf : UnitHex
         this.attackPoints = 4;
         this.lifePoints = 10;
     }
-    public override void MakeActionOnEnter()
+    public override void EnterOnSpecifiedTile(GameObject tile)
     {
 
     }
-    public override void MakeActionAtAttack(GameObject target)
+    public override void Attack(GameObject target)
     {
         target.GetComponent<UnitHex>().lifePoints -= attackPoints;
+    }
+
+    public override void Die()
+    {
+        
     }
 }

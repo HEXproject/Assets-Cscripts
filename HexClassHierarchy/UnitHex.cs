@@ -14,6 +14,7 @@ public abstract class UnitHex : IHex
     public int movement { get; set; }
     public int lifeTime { get; set; }
 
-    public abstract void MakeActionAtAttack(GameObject target);
+    public abstract void Attack(GameObject target);
+    public abstract void Die();
 
 }

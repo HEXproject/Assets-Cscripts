@@ -9,7 +9,7 @@ public class SteamHaze : SpellHex
     {
         this.hexCost = new HexCost(0, 1, 0, 1);
     }
-    public override void MakeActionOnEnter()
+    public override void EnterOnSpecifiedTile(GameObject tile)
     {
         GameObject deck = getHexContainer("/Main Camera/HexUI/Deck");
         string hexType = "SpellHex";
@@ -29,7 +29,7 @@ public class OilExplosion : SpellHex
     {
         this.hexCost = new HexCost(0, 0, 0, 1);
     }
-    public override void MakeActionOnEnter()
+    public override void EnterOnSpecifiedTile(GameObject tile)
     {
         //not ready :(
     }

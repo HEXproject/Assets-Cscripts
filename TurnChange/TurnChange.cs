@@ -6,24 +6,8 @@ using UnityEngine;
 public class TurnChange : MonoBehaviour
 {
     //make it private
-    public GameObject _activePlayer;
-    public GameObject _inactivePlayer;
-
-    public GameObject wolf;
-    public GameObject carrier1;
-    public GameObject carrier2;
-
-    void OnEnable()
-    {
-
-        TurnChangeEvents.EndOfTurn += GoToNextPhase;
-        TurnChangeEvents.NextPhase += DoPhase;
-    }
-    void OnDisable()
-    {
-        TurnChangeEvents.EndOfTurn -= GoToNextPhase;
-        TurnChangeEvents.NextPhase -= DoPhase;
-    }
+    public GameObject _Player1;
+    public GameObject _Player2;
 
     public string _typeOfPhase;
 
@@ -41,165 +25,121 @@ public class TurnChange : MonoBehaviour
     {
         if (player1 != null && player2 != null)
         {
-            _activePlayer = player1;
-            _inactivePlayer = player2;
+            _Player1 = player1;
+            _Player2 = player2;
         }
         else
         {
             Debug.Log("One or both players were NULL.");
         }
     }
-    private void SwitchPlayers()
-    {
-        GameObject tmp = _activePlayer;
-        _activePlayer = _inactivePlayer;
-        _inactivePlayer = tmp;
-
-        _inactivePlayer.SetActive(false);
-        _activePlayer.SetActive(true);
-    }
-
+    
     public GameObject GetActivePlayer()
     {
-        return _activePlayer;
+        return _Player1;
     }
     public GameObject GetInactivePlayer()
     {
-        return _inactivePlayer;
-    }
-
-    public void SetTurnToPhaseByName(string phaseName)
-    {
-        if (phaseName == "PlanningPhase" || phaseName == "ActionPhase")
-        {
-            _typeOfPhase = phaseName;
-        }
-        else
-        {
-            Debug.Log("Incorrect phase name");
-        }
-    }
-    private void ReduceRemainingPhaseCounter(string phaseName)
-    {
-        if (phaseName == "ActionPhase")  _remainingPlanningPhases--;
-        if (phaseName == "PlanningPhase")  _remainingActionPhases--;
-    }
-    private void GoToNextPhase()
-    {
-        SwitchPlayers();
-        ReduceRemainingPhaseCounter(_typeOfPhase);
-        if (_remainingPlanningPhases == 0)
-        {
-            _remainingPlanningPhases = _basicCountOfPlanningPhase;
-            SetTurnToPhaseByName("ActionPhase");
-        }
-        else if (_remainingActionPhases == 0)
-        {
-            _remainingActionPhases = _basicCountOfActionPhase;
-            SetTurnToPhaseByName("PlanningPhase");
-        }
-    }
-    private void DoPlanningPhase()
-    {
-        // Send event to draw a card
-        // Send event to choose hex
-        bool tmpIsHexChosen = false;
-        if (tmpIsHexChosen)
-        {
-            GameObject chosenCard = new GameObject();
-            //chosenCard = getChosenCard();
-            //should I chceck if IHex is null?
-            chosenCard.GetComponent<IHex>().MakeActionOnEnter();
-
-            GoToNextPhase();
-        }
-        else
-        {
-            Debug.Log("Chosen Hex is null, can't going forward with turn");
-        }
-    }
-    private void DoActionPhase()
-    {
-        // Send event to choose board unit
-        bool tmpIsBoardUnitChosen = false;
-        if (tmpIsBoardUnitChosen)
-        {
-            GameObject chosenCard = new GameObject();
-            //chosenCard = getChosenCard();
-            //should I chceck if IHex is null?
-            //chosenCard.GetComponent<UnitHex>().MakeActionAtAttack();
-
-            GoToNextPhase();
-        }
-    }
-    public void DoPhase()
-    {
-        if(_typeOfPhase == "PlanningPhase") DoPlanningPhase();
-        else if (_typeOfPhase == "ActionPhase") DoActionPhase();
+        return _Player2;
     }
 
     void Start()
     {
-        spawnUnits();
+        SpawnUnitsThatStartsOnBoard();
         StartCoroutine(PlanningPhase());
+    }
+
+    IEnumerator Round()
+    {
+        StartCoroutine(PlanningPhase());
+        StartCoroutine(ActionPhase());
+        makeAllNotExhausted(_Player1, _Player2);
+        StartCoroutine(Round());
+        yield return new WaitForSeconds(1);
     }
 
     IEnumerator PlanningPhase()
     {
-        Debug.Log("Planning phase has just started! " + _activePlayer);
-        Debug.Log("Gained Full Mana Crystal! " + _activePlayer.ToString());
-        yield return new WaitForSeconds(2);
-        Debug.Log("Drawn card! " + _activePlayer.ToString());
-        yield return new WaitForSeconds(2);
-        Debug.Log("Gain Full Mana Crystal!" + _activePlayer.ToString());
-        wolf.GetComponent<UnitHex>().isExhausted = false;
-        carrier1.GetComponent<UnitHex>().isExhausted = false;
-        carrier2.GetComponent<UnitHex>().isExhausted = false;
-        Debug.Log("recharged units");
-
-        _remainingPlanningPhases++;
-        SwitchPlayers();
-        StartCoroutine(realActionPhase());
-
-
-    }
-
-    IEnumerator realActionPhase()
-    {
-        Debug.Log("Action phase has just started! " + _activePlayer);
-        StartCoroutine(ActionPhase(wolf, carrier1));
-        StartCoroutine(ActionPhase(carrier1, wolf));
-        StartCoroutine(ActionPhase(carrier2, wolf));
-        if (_remainingPlanningPhases < _basicCountOfPlanningPhase)
-        {
-            StartCoroutine(PlanningPhase());
-        }
-        else Debug.Log("end of game");
+        StartCoroutine(PlanningPhaseByPlayer(_Player1));
+        //turn indicator goes further
+        yield return new WaitForSeconds(1);
+        StartCoroutine(PlanningPhaseByPlayer(_Player2));
+        //turn indicator goes further
         yield return new WaitForSeconds(1);
     }
 
-    IEnumerator ActionPhase(GameObject unit, GameObject target)
+    IEnumerator ActionPhase()
     {
-        Debug.Log("Unit: " + unit + " has attacked!");
-        unit.GetComponent<UnitHex>().MakeActionAtAttack(target);
-        Debug.Log("target " + target + " hp after attack: " + target.GetComponent<UnitHex>().lifePoints);
-        yield return new WaitForSeconds(2);
+        StartCoroutine(ActionPhaseByPlayer(_Player1));
+        yield return new WaitForSeconds(1);
+        //turn indicator goes on
+        StartCoroutine(ActionPhaseByPlayer(_Player2));
+        yield return new WaitForSeconds(1);
+        //turn indicatio goes on
+        if (areAllExhausted(_Player1) && areAllExhausted(_Player2) == false) StartCoroutine(ActionPhase());
+    }
+
+    void makeAllNotExhausted(GameObject p1, GameObject p2)
+    {
+        
+    }
+    bool areAllExhausted(GameObject player)
+    {
+        return false;
+    }
+
+    IEnumerator PlanningPhaseByPlayer(GameObject player)
+    {
+        //increase mana
+        //draw card
+        //increase mana
+        yield return new WaitForSeconds(_basicCountOfPlanningPhase);
+        GameObject chosenHex = getChosenHex();
+        GameObject tile = getPosition();
+        if (chosenHex != null && tile != null)
+        {
+            //add position to entering
+            chosenHex.GetComponent<IHex>().EnterOnSpecifiedTile(tile);
+            yield return new WaitForSeconds(1);
+        }
+    }
+
+    GameObject getChosenHex()
+    {
+        return new GameObject();
+    }
+    GameObject getPosition()
+    {
+        return new GameObject();
+    }
+
+    IEnumerator ActionPhaseByPlayer(GameObject player)
+    {
+        yield return new WaitForSeconds(_basicTimeOfActionPhase);
+        GameObject chosenUnit = getChosenActiveUnit();
+        //add possibility to use special skill
+        GameObject chosenTarget = getChosenTarget();
+        if (chosenUnit != null && chosenTarget != null)
+        {
+            chosenUnit.GetComponent<UnitHex>().Attack(chosenTarget);
+            yield return new WaitForSeconds(1);
+        }
+    }
+
+    private GameObject getChosenTarget()
+    {
+        return new GameObject();
+    }
+
+    private GameObject getChosenActiveUnit()
+    {
+        return new GameObject();
     }
 
 
-    void spawnUnits()
+    void SpawnUnitsThatStartsOnBoard()
     {
-        wolf = new GameObject("wolf");
-        carrier1 = new GameObject("carrier1");
-        carrier2 = new GameObject("carrier2");
-
-        wolf.AddComponent<FernWolf>();
-        carrier1.AddComponent<BrokenMinersCarrier>();
-        carrier2.AddComponent<BrokenMinersCarrier>();
-
-        wolf.GetComponent<UnitHex>().InitHex();
-        carrier1.GetComponent<UnitHex>().InitHex();
-        carrier2.GetComponent<UnitHex>().InitHex();
+        
 
     }
 }

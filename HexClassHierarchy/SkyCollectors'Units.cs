@@ -12,13 +12,17 @@ public class BrokenMinersCarrier : UnitHex
         this.lifePoints = 6;
     }
 
-    public override void MakeActionOnEnter()
+    public override void EnterOnSpecifiedTile(GameObject tile)
     {
         this.changeLifePoints(this, -4);
     }
 
-    public override void MakeActionAtAttack(GameObject target)
+    public override void Attack(GameObject target)
     {
         target.GetComponent<UnitHex>().lifePoints -= attackPoints;
+    }
+    public override void Die()
+    {
+
     }
 }
