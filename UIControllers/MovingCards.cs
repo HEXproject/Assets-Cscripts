@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+
 
 public class MovingCards : MonoBehaviour
 {
-
-	public Queue<GameObject> DeckOfCards = new Queue<GameObject>();
+	public List<GameObject> DeckOfCards = new List<GameObject>();
 	private int HandSize = 5;
 	public GameObject Card;
 	public GameObject Hand;
 	private Vector3 velocity = Vector3.zero;
 	public float smoothTime = 0.01f;
-	public bool toChange = false;
-	Ray ray;
-	RaycastHit hit;
+	public int number_of_mull = 0;
+
 
 
 
@@ -23,7 +23,6 @@ public class MovingCards : MonoBehaviour
 
 		newHex.AddComponent<SpriteRenderer>();
 		newHex.GetComponent<SpriteRenderer>().sprite = s;
-
 		newHex.AddComponent<PolygonCollider2D>();
 
 		return newHex;
@@ -38,7 +37,7 @@ public class MovingCards : MonoBehaviour
 			newHex.GetComponent<Transform>().position =
 				new Vector3(transform.position.x, transform.position.y, transform.position.z);
 			newHex.GetComponent<Transform>().name = "Card";
-			DeckOfCards.Enqueue(newHex);
+			DeckOfCards.Add(newHex);
 			newHex.SetActive(false);
 		}
 	}
@@ -57,31 +56,40 @@ public class MovingCards : MonoBehaviour
 
 	public void OnClick()
 	{
-		GameObject n = DeckOfCards.Dequeue();
-		n.SetActive(true);
-		moveHex(n, Hand);
-		n.transform.SetParent(Hand.transform);
+			GameObject n = DeckOfCards[0];
+			DeckOfCards.RemoveAt(0);
+			moveHex(n, Hand);
+			n.transform.SetParent(Hand.transform);
+		    n.gameObject.SetActive(true);
 	}
 
 	public void DoMulligan()
 	{
+		number_of_mull = 0;
+		Debug.Log("dzieci" + Hand.transform.childCount);
 		for (int i = 0; i < Hand.transform.childCount; i++)
-		{
-			if (Hand.transform.GetChild(i).transform.hasChanged == true)
+		{ Debug.Log(Hand.transform.GetChild(i).transform.GetComponent<ClickManager>().ToChange);
+			if (Hand.transform.GetChild(i).transform.GetComponent<ClickManager>().ToChange)
 			{
-				DeckOfCards.Enqueue(Hand.transform.GetChild(i).gameObject);
-				Hand.transform.GetChild(i).gameObject.active = false;
-				Hand.transform.GetChild(i).hasChanged = false;
+				number_of_mull++;
+				Debug.Log(number_of_mull);
+				DeckOfCards.Add(Hand.transform.GetChild(i).gameObject);
+				Hand.transform.GetChild(i).GetComponent<ClickManager>().ToChange = false;
+				moveHex(Hand.transform.GetChild(i).gameObject, this.transform.gameObject);
+				Hand.transform.GetChild(i).gameObject.SetActive(false);
 				Hand.transform.GetChild(i).transform.SetParent(this.transform);
-				OnClick();
+				i -= 1;
 			}
+		}
+		for (int j = 0; j < number_of_mull; j++)
+		{
+			OnClick();
 		}
 	}
 
 	// Use this for initialization
 	void Start()
 	{
-		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		CreateCards();
 
 	}
@@ -89,15 +97,6 @@ public class MovingCards : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetMouseButtonDown(0)) {
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-            
-			RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-			if (hit.collider != null) {
-				Debug.Log(hit.collider.gameObject.name);
-				hit.collider.attachedRigidbody.AddForce(Vector2.up);
-			}
-		}
+
 	}
 }
