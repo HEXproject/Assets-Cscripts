@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UIControllers;
 using UnityEditor;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ public class MovingCards : MonoBehaviour
 			newHex.transform.SetParent(transform);
 			newHex.GetComponent<Transform>().position =
 				new Vector3(transform.position.x, transform.position.y, transform.position.z);
-			newHex.GetComponent<Transform>().name = "Card";
+			newHex.GetComponent<Transform>().name = "Card"+i.ToString();
 			DeckOfCards.Add(newHex);
 			newHex.SetActive(false);
 		}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapGeneration : MonoBehaviour {
 
-#region MapPresets
+    #region MapPresets
 
     //Basic Tile
     public GameObject PrefabHexTile;
@@ -24,10 +24,10 @@ public class MapGeneration : MonoBehaviour {
 
 
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
 		
-	}
+    }
 
 
     public void GenerateMap()
@@ -43,8 +43,8 @@ public class MapGeneration : MonoBehaviour {
 
             for (int r = r1; r <= r2; r++)
             {
-                 pos.x = 3.0f / 2.0f * q;
-                 pos.z = Mathf.Sqrt(3.0f) * (r + q / 2.0f);
+                pos.x = 3.0f / 2.0f * q;
+                pos.z = Mathf.Sqrt(3.0f) * (r + q / 2.0f);
 
                 Hex hex = new Hex(q, r);
                 GameObject hexGO = (GameObject)Instantiate(PrefabHexTile, pos, Quaternion.identity, this.transform);
