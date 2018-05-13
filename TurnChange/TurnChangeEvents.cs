@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class TurnChangeEvents : MonoBehaviour {
 
-    public delegate void EventHandler();
-    public static event EventHandler EndOfTurn;
-    public static event EventHandler NextPhase;
+    public delegate void ChangingTurn();
+    public static event ChangingTurn EndOfTurn;
+    public static event ChangingTurn NextPhase;
+    public static event ChangingTurn StartIt;
 
-    public static void GoToNextPhase()
+    public static void TurnHasEnded()
     {
         //drawHex
         if (EndOfTurn != null)
@@ -17,12 +18,19 @@ public class TurnChangeEvents : MonoBehaviour {
         }
     }
 
+    public static void StartOfTheGame()
+    {
+        if (StartIt != null)
+        {
+            StartIt();
+        }
+    }
     public static void DoPhase()
     {
         //drawHex
-        if (EndOfTurn != null)
+        if (NextPhase != null)
         {
-            EndOfTurn();
+            NextPhase();
         }
     }
 
