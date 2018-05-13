@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEditor;
 
 public abstract class IHex : MonoBehaviour{
 
@@ -108,7 +107,7 @@ public abstract class IHex : MonoBehaviour{
     //find neighbour hexTiles
     //find neighbour hexUnits
 
-    public abstract void MakeActionOnEnter();
+    public abstract void EnterOnSpecifiedTile(GameObject tile);
     public abstract void InitHex();
 
 }
