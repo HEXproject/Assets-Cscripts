@@ -14,7 +14,7 @@ public class MovingCards : MonoBehaviour
 	public GameObject Hand;
 	private Vector3 velocity = Vector3.zero;
 	public float smoothTime = 0.01f;
-
+	public int number_of_mull = 0;
 	
 	
 	GameObject createGameObjectFromSprite(Sprite s)
