@@ -8,23 +8,21 @@ public class BrokenMinersCarrier : UnitHex
     public override void InitHex()
     {
         this.hexCost = new HexCost(3, 0, 0, 1);
+        this.attackPoints = 1;
         this.lifePoints = 6;
     }
 
-    public override void MakeActionOnEnter()
+    public override void EnterOnSpecifiedTile(GameObject tile)
     {
         this.changeLifePoints(this, -4);
     }
 
-    public override void MakeActionAtAttack()
+    public override void Attack(GameObject target)
     {
-        GameObject deck = getHexContainer("/Main Camera/HexUI/Deck");
-        string hexType = "UnitHex";
-        List<IHex> gls = getHexByTypeFromContainer(deck, hexType);
-        
-        foreach( var g in gls)
-        {
-            this.changeLifePoints((UnitHex)g, -21);
-        }
+        target.GetComponent<UnitHex>().lifePoints -= attackPoints;
+    }
+    public override void Die()
+    {
+
     }
 }
