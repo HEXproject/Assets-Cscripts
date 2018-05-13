@@ -38,9 +38,7 @@ public class MovingCards : MonoBehaviour
 				new Vector3(transform.position.x, transform.position.y, transform.position.z);
 			newHex.GetComponent<Transform>().name = "Card"+i.ToString();
 			DeckOfCards.Add(newHex);
-			newHex.GetComponent<Transform>().name = "Card";
-			DeckOfCards.Enqueue(newHex);
-			newHex.SetActive(false);
+			newHex.SetActive(false);		
 		}
 	}
 
