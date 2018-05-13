@@ -16,12 +16,9 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 			{
 				eventData.pointerDrag.SetActive(false);
 				Destroy(eventData.pointerDrag.GetComponent<Draggable>().placeholder);
-<<<<<<< HEAD
 			}if (this.transform.name == "Map")
 			{
 				Debug.Log("HEX!!!");
-=======
->>>>>>> master
 			}
 		}
 	}
