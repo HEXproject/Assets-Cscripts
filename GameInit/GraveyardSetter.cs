@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class GraveyardSetter : InitializePlayersGameObjects {
+namespace Assets.GameInit
+{
+    public class GraveyardSetter : InitializePlayersGameObjects {
 
-    public override void Initialize(GameObject g)
-    {
+        public override void Initialize(GameObject g)
+        {
 
+        }
     }
 }

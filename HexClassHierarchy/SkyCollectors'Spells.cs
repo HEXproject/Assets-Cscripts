@@ -1,36 +1,36 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System;
 
-public class SteamHaze : SpellHex
+namespace Assets.HexClassHierarchy
 {
-    public override void InitHex()
+    public class SteamHaze : SpellHex
     {
-        this.hexCost = new HexCost(0, 1, 0, 1);
-    }
-    public override void EnterOnSpecifiedTile(GameObject tile)
-    {
-        GameObject deck = getHexContainer("/Main Camera/HexUI/Deck");
-        string hexType = "SpellHex";
-        string hexTag = "BoostSpell";
-        List<IHex> spellsWithTag = getHexByTypeFromContainer(deck, hexType);
-        spellsWithTag = getHexByTagFromIHexList(spellsWithTag, hexTag);
-        foreach(var s in spellsWithTag)
+        public override void InitHex()
         {
-            s.hexCost.specialPoints -= 1;
+            this.HexCost = new HexCost(0, 1, 0, 1);
+        }
+        public override void EnterOnSpecifiedTile(GameObject tile)
+        {
+            var deck = GetHexContainer("/Main Camera/HexUI/Deck");
+            var hexType = "SpellHex";
+            var hexTag = "BoostSpell";
+            var spellsWithTag = GetHexByTypeFromContainer(deck, hexType);
+            spellsWithTag = GetHexByTagFromIHexList(spellsWithTag, hexTag);
+            foreach (var s in spellsWithTag)
+            {
+                s.HexCost.SpecialPoints -= 1;
+            }
         }
     }
-}
 
-public class OilExplosion : SpellHex
-{
-    public override void InitHex()
+    public class OilExplosion : SpellHex
     {
-        this.hexCost = new HexCost(0, 0, 0, 1);
-    }
-    public override void EnterOnSpecifiedTile(GameObject tile)
-    {
-        //not ready :(
+        public override void InitHex()
+        {
+            HexCost = new HexCost(0, 0, 0, 1);
+        }
+        public override void EnterOnSpecifiedTile(GameObject tile)
+        {
+            //not ready :(
+        }
     }
 }

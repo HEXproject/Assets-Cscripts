@@ -1,19 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public abstract class UnitHex : IHex
+namespace Assets.HexClassHierarchy
 {
-    public bool isExhausted;
-
-    public int lifePoints { get; set; }
-    public int attackPoints { get; set; }
-    public HexCost cost { get; set; }
-    public int movement { get; set; }
-    public int lifeTime { get; set; }
-
-    public abstract void Attack(GameObject target);
-    public abstract void Die();
-
+    public abstract class UnitHex : IHex
+    {
+        public bool IsExhausted;
+        public int LifePoints { get; set; }
+        public int AttackPoints { get; set; }
+        public HexCost Cost { get; set; }
+        public int Movement { get; set; }
+        public int LifeTime { get; set; }
+        public abstract void Attack(GameObject target);
+        public abstract void Die();
+    }
 }
