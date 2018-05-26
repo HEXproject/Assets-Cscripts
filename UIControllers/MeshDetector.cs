@@ -1,28 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MeshDetector : MonoBehaviour, IPointerDownHandler
+namespace Assets.UIControllers
 {
-	void Start()
-	{
-		addPhysicsRaycaster();
-	}
+    public class MeshDetector : MonoBehaviour, IPointerDownHandler
+    {
+        void Start()
+        {
+            AddPhysicsRaycaster();
+        }
 
-	void addPhysicsRaycaster()
-	{
-		PhysicsRaycaster physicsRaycaster = GameObject.FindObjectOfType<PhysicsRaycaster>();
-		if (physicsRaycaster == null)
-		{
-			Camera.main.gameObject.AddComponent<PhysicsRaycaster>();
-		}
-	}
+        void AddPhysicsRaycaster()
+        {
+            var physicsRaycaster = GameObject.FindObjectOfType<PhysicsRaycaster>();
+            if (physicsRaycaster == null)
+            {
+                Camera.main.gameObject.AddComponent<PhysicsRaycaster>();
+            }
+        }
 
-	public void OnPointerDown(PointerEventData eventData)
-	{
-		Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
-	}
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
+        }
 
-	//Implement Other Events from Method 1
+        //Implement Other Events from Method 1
+    }
 }

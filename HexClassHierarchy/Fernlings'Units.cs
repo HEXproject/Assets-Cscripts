@@ -1,26 +1,27 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 
-public class FernWolf : UnitHex
+namespace Assets.HexClassHierarchy
 {
-    public override void InitHex()
+    public class FernWolf : UnitHex
     {
-        this.hexCost = new HexCost(0, 1, 1, 2);
-        this.attackPoints = 4;
-        this.lifePoints = 10;
-    }
-    public override void EnterOnSpecifiedTile(GameObject tile)
-    {
+        public override void InitHex()
+        {
+            this.HexCost = new HexCost(0, 1, 1, 2);
+            this.AttackPoints = 4;
+            this.LifePoints = 10;
+        }
+        public override void EnterOnSpecifiedTile(GameObject tile)
+        {
 
-    }
-    public override void Attack(GameObject target)
-    {
-        target.GetComponent<UnitHex>().lifePoints -= attackPoints;
-    }
+        }
+        public override void Attack(GameObject target)
+        {
+            target.GetComponent<UnitHex>().LifePoints -= AttackPoints;
+        }
 
-    public override void Die()
-    {
+        public override void Die()
+        {
         
+        }
     }
 }

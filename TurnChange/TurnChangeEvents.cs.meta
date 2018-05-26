@@ -1,9 +1,7 @@
-<<<<<<< HEAD:HexClassHierarchy/SkyCollectors'Spells.cs.meta
 fileFormatVersion: 2
-guid: 436dbc41f88750f458ef8fa2f06624a7
-timeCreated: 1517581006
-licenseType: Free
+guid: 85ed36d6dbeda444d83e12f42484ca80
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
   defaultReferences: []
   executionOrder: 0
@@ -11,17 +9,3 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-=======
-fileFormatVersion: 2
-guid: d811d8d8c6bf5cb46927b49a42c4d30b
-timeCreated: 1523049830
-licenseType: Free
-MonoImporter:
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
->>>>>>> master:TurnChange/TurnChangeEvents.cs.meta

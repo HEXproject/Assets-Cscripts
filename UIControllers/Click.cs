@@ -1,21 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
+namespace Assets.UIControllers
+{
+    public class Click : MonoBehaviour {
 
-public class Click : MonoBehaviour {
+        public Button YourButton;
 
-	public Button yourButton;
+        void Start()
+        {
+            var btn = YourButton.GetComponent<Button>();
+            btn.onClick.AddListener(TaskOnClick);
+        }
 
-	void Start()
-	{
-		Button btn = yourButton.GetComponent<Button>();
-		btn.onClick.AddListener(TaskOnClick);
-	}
-
-	void TaskOnClick()
-	{
-		Debug.Log("KLIK!");
-	}
+        void TaskOnClick()
+        {
+            Debug.Log("KLIK!");
+        }
+    }
 }

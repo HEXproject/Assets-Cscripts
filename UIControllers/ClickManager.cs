@@ -1,9 +1,8 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace UIControllers
+namespace Assets.UIControllers
 {
 	public class ClickManager : MonoBehaviour  , IPointerClickHandler
 	{
@@ -30,8 +29,8 @@ namespace UIControllers
 			}
 			else
 			{
-				Material m = AssetDatabase.LoadAssetAtPath("Assets/Assets-Materials/Materials/Units/MotherShip/steampunk robot_SteampunkRobot_AO 4.png", typeof(Material)) as Material;
-				eventData.pointerCurrentRaycast.gameObject.GetComponentInChildren<Renderer>().material = m;
+			//Material m = AssetDatabase.LoadAssetAtPath("Assets/Assets-Materials/Materials/Units/MotherShip/steampunk robot_SteampunkRobot_AO 4.png", typeof(Material)) as Material;
+			//eventData.pointerCurrentRaycast.gameObject.GetComponentInChildren<Renderer>().material = m;
 				ChosenHex = eventData.pointerCurrentRaycast.gameObject;
 			}
 		}
