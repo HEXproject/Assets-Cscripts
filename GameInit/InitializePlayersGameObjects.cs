@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public abstract class InitializePlayersGameObjects : MonoBehaviour
+namespace Assets.GameInit
 {
-
-    public abstract void Initialize(GameObject g);
+    public abstract class InitializePlayersGameObjects : MonoBehaviour
+    {
+        public abstract void Initialize(GameObject g);
+    }
 }

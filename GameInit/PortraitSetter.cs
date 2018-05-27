@@ -1,44 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PortraitSetter : InitializePlayersGameObjects
+namespace Assets.GameInit
 {
-
-    public override void Initialize(GameObject g)
+    public class PortraitSetter : InitializePlayersGameObjects
     {
-        getValues();
-        makeGameObjectsFromValues();
-        attachTraitsToPortrait();
-        getPortraitModel();
-        attachModelToPortraitGameObject();
 
+        public override void Initialize(GameObject g)
+        {
+            GetValues();
+            MakeGameObjectsFromValues();
+            AttachTraitsToPortrait();
+            GetPortraitModel();
+            AttachModelToPortraitGameObject();
+        }
 
-
-    }
-
-    private void attachModelToPortraitGameObject()
-    {
+        private void AttachModelToPortraitGameObject()
+        {
         
-    }
+        }
 
-    private void getPortraitModel()
-    {
+        private void GetPortraitModel()
+        {
         
-    }
+        }
 
-    private void attachTraitsToPortrait()
-    {
+        private void AttachTraitsToPortrait()
+        {
         
-    }
+        }
 
-    private void makeGameObjectsFromValues()
-    {
+        private void MakeGameObjectsFromValues()
+        {
         
-    }
+        }
 
-    private void getValues()
-    {
+        private void GetValues()
+        {
         
+        }
     }
 }

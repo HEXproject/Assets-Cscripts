@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public abstract class SpellHex : IHex
+﻿namespace Assets.HexClassHierarchy
 {
+    public abstract class SpellHex : IHex
+    {
     
+    }
 }
