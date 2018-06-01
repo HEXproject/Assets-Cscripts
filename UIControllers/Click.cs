@@ -9,8 +9,8 @@ namespace Assets.UIControllers
 
         void Start()
         {
-            var btn = YourButton.GetComponent<Button>();
-            btn.onClick.AddListener(TaskOnClick);
+            //var btn = YourButton.GetComponent<Button>();
+           // btn.onClick.AddListener(TaskOnClick);
         }
 
         void TaskOnClick()

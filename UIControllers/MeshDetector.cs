@@ -22,6 +22,7 @@ namespace Assets.UIControllers
         public void OnPointerDown(PointerEventData eventData)
         {
             Debug.Log("Clicked: " + eventData.pointerCurrentRaycast.gameObject.name);
+            eventData.pointerCurrentRaycast.gameObject.GetComponent<ClickManager>().ToChange = true;
         }
 
         //Implement Other Events from Method 1

@@ -22,8 +22,8 @@ namespace Assets.UIControllers
 			Debug.Log(eventData.pointerCurrentRaycast.gameObject.name);
 			if (eventData.pointerCurrentRaycast.gameObject.CompareTag("Card"))
 			{
-				eventData.pointerCurrentRaycast.gameObject.GetComponent<Image>().color=Color.cyan;
-				eventData.pointerCurrentRaycast.gameObject.GetComponent<ClickManager>().ToChange = true;
+				//eventData.pointerCurrentRaycast.gameObject.GetComponent<Image>().color=Color.cyan;
+				//eventData.pointerCurrentRaycast.gameObject.GetComponent<ClickManager>().ToChange = true;
 				ChosenCard = eventData.pointerCurrentRaycast.gameObject;
 				Debug.Log("Imie: " + ChosenCard.name);
 			}
@@ -34,6 +34,15 @@ namespace Assets.UIControllers
 				ChosenHex = eventData.pointerCurrentRaycast.gameObject;
 			}
 		}
+        public void OnMouseEnter()
+        {
+            transform.localScale += new Vector3(10,10,10);
+        }
+
+        public void OnMouseExit()
+        {
+            transform.localScale -= new Vector3(10,10,10);
+        }
 
 		public void Play()
 		{
